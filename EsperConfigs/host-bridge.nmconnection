@@ -1,0 +1,18 @@
+[connection]
+id=Host Bridge
+uuid=$uuid
+type=bridge
+interface-name=virbr0
+
+[bridge]
+stp=false
+forward-delay=0
+
+[ipv4]
+address1=$ipaddress/24,$gateway
+dns=$dns;
+dns-search=$domain;
+method=manual
+
+[ipv6]
+method=ignore
