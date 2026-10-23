@@ -1,0 +1,7 @@
+[Unit]
+Description=Clean up old and orphaned Transmission downloads
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec transmission /config/download-cleanup.sh

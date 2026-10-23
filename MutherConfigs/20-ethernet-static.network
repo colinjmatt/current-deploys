@@ -1,0 +1,7 @@
+[Match]
+Name=$interface
+
+[Network]
+Address=$ip_addr
+Gateway=$gateway
+DNS=$dns
