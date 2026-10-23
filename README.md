@@ -11,6 +11,7 @@ A catalog of nodes, devices, and storage arrays across the network, including ha
 | **`esper`** | High-Performance Gaming & VFIO | AMD Ryzen / NVIDIA RTX 3080 Ti | *Blade Runner* (1982) – Esper Terminal |
 | **`heighliner`** | Edge Gateway & Routing | Turris Omnia NG (1TB NVMe, Turris OS) | *Dune* (1984) – Spacing Guild Heighliner |
 | **`muther`** | Core Server & Containers | HP Pro Mini 400 G9 (i5-12500T, 16GB RAM) | *Alien* (1979) – MU/TH/UR 6000 |
+| **`ono-sendai`** | Portable & Field Handheld Gaming | Steam Deck OLED (2TB NVMe + 1TB MicroSD) | *Neuromancer* (1984) – Cyberspace 7 Deck |
 | **`voltron`** | High-Throughput Bulk Storage | Yottamaster 5-Bay Enclosure (5x 2TB RAID 0) | *Voltron: Defender of the Universe* (1984) |
 | **`zion`** | Dedicated Console Gaming | Sony PlayStation 5 Pro | *The Matrix* (1999) – The Last City |
 
@@ -32,6 +33,11 @@ A catalog of nodes, devices, and storage arrays across the network, including ha
 * **Entity**: MU/TH/UR 6000
 * **Source**: *Alien* (1979)
 * **Context**: The commercial starship mainframe artificial intelligence aboard the USCSS *Nostromo*. Responsible for managing life-support loops, navigation, prioritized communications, and continuous background logistics while operating autonomously in the background. Assigned to the headless micro-server running monitoring agents, persistent container suites, and essential infrastructure daemons.
+
+### `ono-sendai`
+* **Entity**: Ono-Sendai Cyberspace 7
+* **Source**: *Neuromancer* (1984)
+* **Context**: The iconic, portable "cyberdeck" utilized by console cowboys like Case to jack directly into the global consensual hallucination known as cyberspace. Compact, potent, and purpose-built for independent field operations. Assigned to the tactile, leather-wrapped Steam Deck OLED for untethered mobile gaming and emulation.
 
 ### `voltron`
 * **Entity**: Voltron / Defender of the Universe
