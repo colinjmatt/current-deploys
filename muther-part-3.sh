@@ -149,12 +149,12 @@ cat ./MutherConfigs/transmission-cleanup.timer > /etc/systemd/system/transmissio
 # Enable services and reboot
 systemctl daemon-reload
 systemctl enable \
+  certbot.timer \
   docker \
   podman.socket \
   fstrim.timer \
   systemd-oomd \
   systemd-timesyncd \
-  certbot.timer \
   transmission-cleanup.timer
 
 reboot
