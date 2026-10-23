@@ -1,6 +1,5 @@
 #!/bin/bash
-# BACKUP /home/user/    BEFORE REINSTALLING!!
-# BACKUP /etc/libvirt/  BEFORE REINSTALLING!!
+set -euo pipefail
 
 # Set keyboard map & time sync
 loadkeys uk
@@ -11,10 +10,9 @@ reflector --country 'United Kingdom' --protocol https --latest 50 --fastest 8 --
 
 # Create Paritions - NON ENCRYPTED VERSION
 parted -s /dev/nvme0n1 mklabel gpt
-parted -s /dev/nvme0n1 mkpart ESP fat32 2048s 512MiB
-parted -s /dev/nvme0n1 mkpart linux-swap ext4 512MiB 66048MiB
-parted -s /dev/nvme0n1 mkpart primary ext4 66048MiB 197120MiB
-parted -s /dev/nvme0n1 mkpart primary ext4 197120MiB 100%
+parted -s /dev/nvme0n1 mkpart ESP fat32 2048s 1GiB
+parted -s /dev/nvme0n1 mkpart primary ext4 1GiB 129GiB
+parted -s /dev/nvme0n1 mkpart primary ext4 129GiB 100%
 
 parted -s /dev/nvme0n1 set 1 boot on
 mkfs.vfat -F32 /dev/nvme0n1p1
@@ -31,20 +29,15 @@ mkdir -p /mnt/mnt/{Games,VMs}
 mount /dev/nvme1n1p1 /mnt/mnt/Games
 mount /dev/nvme0n1p4 /mnt/mnt/VMs
 
-# Install system - 'lvm' needed for encryption
-pacstrap /mnt base base-devel amd-ucode linux linux-firmware linux-headers nvidia-open systemd-resolvconf openssh wget nano git
+# Install base system
+pacstrap -K /mnt base base-devel amd-ucode linux linux-firmware linux-headers e2fsprogs zram-generator nvidia-open systemd-resolvconf openssh wget nano git
 
-# Generate fstab for filesystem mounts and add /tmp as ram drive
-genfstab -pU /mnt >>/mnt/etc/fstab
-echo "tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0" >>/mnt/etc/fstab
+# Generate fstab using persistent UUIDs
+genfstab -U /mnt >> /mnt/etc/fstab
 
-# Copy mirrorlist to installed base system
-cat /etc/pacman.d/mirrorlist >/mnt/etc/pacman.d/mirrorlist
-
-# Chroot in
+# Enter target environment
 arch-chroot /mnt
 
 # Unmount and reboot into installed system
 umount -R /mnt
-swapoff -a
 reboot
