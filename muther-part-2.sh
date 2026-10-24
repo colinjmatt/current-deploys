@@ -98,7 +98,7 @@ fi
 echo "[zram0]" > /etc/systemd/zram-generator.conf
 
 # Point resolv.conf to systemd-resolved stub listener
-ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 # Enable networking, DNS, bootloader updater, and SSH
 systemctl enable \
