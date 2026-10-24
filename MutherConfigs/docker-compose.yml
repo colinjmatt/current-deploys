@@ -152,7 +152,6 @@ services:
     volumes:
       - ./sonarr:/config
       - /srv/media:/media
-      - /srv/media/downloads:/downloads
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -fsSL --max-time 5 -H \"X-Api-Key: $$SONARR_API_KEY\" http://localhost:8989/api/v3/system/status || exit 1"]
@@ -176,7 +175,6 @@ services:
     volumes:
       - ./radarr:/config
       - /srv/media:/media
-      - /srv/media/downloads:/downloads
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "curl -fsSL --max-time 5 -H \"X-Api-Key: $$RADARR_API_KEY\" http://localhost:7878/api/v3/system/status || exit 1"]
