@@ -13,6 +13,7 @@ transmission_pass="1234"
 wireguard_private_key=""
 wireguard_addresses=""
 wireguard_server_countries=""
+cloudflare_api_token=""
 
 localectl set-keymap uk
 timedatectl set-ntp true
@@ -24,10 +25,9 @@ echo "keyserver hkps://keys.openpgp.org" >> /etc/pacman.d/gnupg/gpg.conf
 # Install required packages
 pacman -Sy
 pacman -S --noconfirm \
-  ccache \
-  certbot \
-  docker \
-  podman \
+  ccache certbot certbot-dns-cloudflare \
+  docker docker-compose \
+  pacman-contrib podman \
   reflector
 
 # Add user to docker and hardware rendering groups for QuickSync
@@ -55,8 +55,6 @@ echo "SystemMaxUse=50M" >> /etc/systemd/journald.conf
 mkdir -p /etc/docker /etc/containers
 cat ./MutherConfigs/daemon.json > /etc/docker/daemon.json
 cat ./MutherConfigs/containers.conf > /etc/containers/containers.conf
-
-systemctl start docker
 
 # Appdata, media directories and environment file
 mkdir -p /srv/media/{blackhole,downloads/{incomplete,complete/{tv-sonarr,films-radarr}},films,tv}
@@ -88,30 +86,32 @@ chmod +x /srv/appdata/transmission/download-cleanup.sh
 # Deploy compose stack
 cat ./MutherConfigs/docker-compose.yml > /srv/appdata/docker-compose.yml
 
-# Certbot bootstrap (HTTP-01 via temporary Nginx)
-cat ./MutherConfigs/nginx-pre-certbot.conf > /srv/appdata/nginx/nginx.conf
+# Nginx config
+cat ./MutherConfigs/nginx.conf > /srv/appdata/nginx/nginx.conf
 sed -i "s|\$domain|$domain|g" /srv/appdata/nginx/nginx.conf
-
-( cd /srv/appdata || exit 1
-  docker compose up -d nginx )
 
 # Issue TLS Certificate
-certbot certonly --agree-tos --register-unsafely-without-email --webroot -w /srv/appdata/nginx/html -d "$domain"
+cat ./MutherConfigs/cloudflare.ini > /etc/letsencrypt/cloudflare.ini
+sed -i "s|\$cloudflare_api_token|$cloudflare_api_token|g" /etc/letsencrypt/cloudflare.ini
+chmod 600 /etc/letsencrypt/cloudflare.ini
+
+certbot certonly \
+  --dns-cloudflare \
+  --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
+  --dns-cloudflare-propagation-seconds 30 \
+  --agree-tos \
+  --register-unsafely-without-email \
+  -d "$domain"
 
 # Deploy renewal hook to reload Nginx on successful renewal
-mkdir -p /etc/letsencrypt/renewal-hooks/deploy
 cat ./MutherConfigs/reload-nginx.sh > /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
 chmod +x /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
-
-# Deploy production TLS Nginx config
-cat ./MutherConfigs/nginx-post-certbot.conf > /srv/appdata/nginx/nginx.conf
-sed -i "s|\$domain|$domain|g" /srv/appdata/nginx/nginx.conf
 
 # Container initialisation and config adjustments
 ( cd /srv/appdata || exit 1
   docker compose up -d
-  echo "Waiting 15 seconds for containers to unpack default configs..."
-  sleep 15
+  echo "Waiting 60 seconds for containers to unpack default configs..."
+  sleep 60
   docker compose stop transmission sonarr radarr jackett )
 
 # Apply custom URL base and Transmission settings
@@ -149,7 +149,7 @@ cat ./MutherConfigs/transmission-cleanup.timer > /etc/systemd/system/transmissio
 # Enable services and reboot
 systemctl daemon-reload
 systemctl enable \
-  certbot.timer \
+  certbot-renew.timer \
   docker \
   podman.socket \
   fstrim.timer \
