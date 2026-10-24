@@ -1,0 +1,22 @@
+#!/bin/sh /etc/rc.common
+
+USE_PROCD=1
+START=95
+STOP=10
+
+start_service() {
+    procd_open_instance
+    procd_set_param command /usr/bin/python3 /root/scripts/discord-translator.py
+    
+    # All environment variables must be declared in a single procd_set_param call
+    procd_set_param env \
+        PYTHONUNBUFFERED=1 \
+        LISTEN_IP="0.0.0.0" \
+        LISTEN_PORT="9999" \
+        DISCORD_URL="https://discord.com/api/webhooks/your_webhook_url"
+
+    procd_set_param respawn 3600 5 0
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_close_instance
+}
