@@ -11,6 +11,7 @@ A catalog of nodes, devices, and storage arrays across the network, including ha
 | **`esper`** | High-Performance Gaming & VFIO | AMD Ryzen / NVIDIA RTX 3080 Ti | *Blade Runner* (1982) – Esper Terminal |
 | **`heighliner`** | Edge Gateway & Routing | Turris Omnia NG (1TB NVMe, Turris OS) | *Dune* (1984) – Spacing Guild Heighliner |
 | **`muther`** | Core Server & Containers | HP Pro Mini 400 G9 (i5-12500T, 16GB RAM) | *Alien* (1979) – MU/TH/UR 6000 |
+| **`nebuchadnezzar`** | High-Throughput Wireless Access | UniFi U7 XGS Pro (Wi-Fi 7) | *The Matrix* (1999) – The Nebuchadnezzar |
 | **`ono-sendai`** | Portable & Field Handheld Gaming | Steam Deck OLED (2TB NVMe + 1TB MicroSD) | *Neuromancer* (1984) – Cyberspace 7 Deck |
 | **`voltron`** | High-Throughput Bulk Storage | Yottamaster 5-Bay Enclosure (5x 2TB RAID 0) | *Voltron: Defender of the Universe* (1984) |
 | **`zion`** | Dedicated Console Gaming | Sony PlayStation 5 Pro | *The Matrix* (1999) – The Last City |
@@ -20,31 +21,36 @@ A catalog of nodes, devices, and storage arrays across the network, including ha
 ## Nomenclature & Architecture Lore
 
 ### `esper`
-* **Entity**: The Esper Computer
-* **Source**: *Blade Runner* (1982)
-* **Context**: The high-density photo-analysis workstation used by Rick Deckard to pan, track, crop, and render three-dimensional details hidden within high-resolution optical captures. Assigned to the primary desktop and gaming rig driving intensive graphics processing, high-refresh display output, and hardware virtualization workloads.
+- **Entity**: The Esper Computer
+- **Source**: *Blade Runner* (1982)
+- **Context**: The high-density photo-analysis workstation used by Rick Deckard to pan, track, crop, and render three-dimensional details hidden within high-resolution optical captures. Assigned to the primary desktop and gaming rig driving intensive graphics processing, high-refresh display output, and hardware virtualization workloads.
 
 ### `heighliner`
-* **Entity**: Guild Heighliner
-* **Source**: *Dune* (1984)
-* **Context**: The monumental deep-space transport vessels operated exclusively by the Spacing Guild. Incapable of landing, they fold space to bridge star systems instantly, carrying planetary fleets and disparate passengers safely across the void without altering or inspecting the cargo within. Assigned to the edge router and gateway serving as the unyielding transit conduit for all network packets across the perimeter.
+- **Entity**: Guild Heighliner
+- **Source**: *Dune* (1984)
+- **Context**: The monumental deep-space transport vessels operated exclusively by the Spacing Guild. Incapable of landing, they fold space to bridge star systems instantly, carrying planetary fleets and disparate passengers safely across the void without altering or inspecting the cargo within. Assigned to the edge router and gateway serving as the unyielding transit conduit for all network packets across the perimeter.
 
 ### `muther`
-* **Entity**: MU/TH/UR 6000
-* **Source**: *Alien* (1979)
-* **Context**: The commercial starship mainframe artificial intelligence aboard the USCSS *Nostromo*. Responsible for managing life-support loops, navigation, prioritized communications, and continuous background logistics while operating autonomously in the background. Assigned to the headless micro-server running monitoring agents, persistent container suites, and essential infrastructure daemons.
+- **Entity**: MU/TH/UR 6000
+- **Source**: *Alien* (1979)
+- **Context**: The commercial starship mainframe artificial intelligence aboard the USCSS *Nostromo*. Responsible for managing life-support loops, navigation, prioritized communications, and continuous background logistics while operating autonomously in the background. Assigned to the headless micro-server running monitoring agents, persistent container suites, and essential infrastructure daemons.
+
+### `nebuchadnezzar`
+- **Entity**: The Nebuchadnezzar (Mark III No. 47)
+- **Source**: *The Matrix* (1999)
+- **Context**: The iconic pirate hovercraft commanded by Morpheus, engineered to navigate subterranean conduits, rise to broadcast depth, and tap into the carrier network to beam pirate signals directly into the simulation. Assigned to the high-density UniFi U7 XGS Pro access point projecting multi-gigabit Wi-Fi 7 radio coverage across the physical environment to interface all mobile and untethered devices back to the core infrastructure.
 
 ### `ono-sendai`
-* **Entity**: Ono-Sendai Cyberspace 7
-* **Source**: *Neuromancer* (1984)
-* **Context**: The iconic, portable "cyberdeck" utilized by console cowboys like Case to jack directly into the global consensual hallucination known as cyberspace. Compact, potent, and purpose-built for independent field operations. Assigned to the tactile, leather-wrapped Steam Deck OLED for untethered mobile gaming and emulation.
+- **Entity**: Ono-Sendai Cyberspace 7
+- **Source**: *Neuromancer* (1984)
+- **Context**: The iconic, portable "cyberdeck" utilized by console cowboys like Case to jack directly into the global consensual hallucination known as cyberspace. Compact, potent, and purpose-built for independent field operations. Assigned to the tactile, leather-wrapped Steam Deck OLED for untethered mobile gaming and emulation.
 
 ### `voltron`
-* **Entity**: Voltron / Defender of the Universe
-* **Source**: *Voltron: Defender of the Universe* (1984)
-* **Context**: A legendary super-robot assembled by docking five independent mechanical lions into a single, cohesive combat unit capable of massive combined output. Assigned to the 5-bay Yottamaster storage enclosure binding five discrete 2TB data-center drives into a unified, high-speed striped RAID 0 storage array.
+- **Entity**: Voltron / Defender of the Universe
+- **Source**: *Voltron: Defender of the Universe* (1984)
+- **Context**: A legendary super-robot assembled by docking five independent mechanical lions into a single, cohesive combat unit capable of massive combined output. Assigned to the 5-bay Yottamaster storage enclosure binding five discrete 2TB data-center drives into a unified, high-speed striped RAID 0 storage array.
 
 ### `zion`
-* **Entity**: Zion
-* **Source**: *The Matrix* (1999)
-* **Context**: The subterranean sanctuary bastion carved out near the core of the Earth, standing as humanity's last stronghold and retreat from simulated digital realities. Assigned to the dedicated, standalone PlayStation 5 Pro gaming environment built purely for high-fidelity interactive entertainment.
+- **Entity**: Zion
+- **Source**: *The Matrix* (1999)
+- **Context**: The subterranean sanctuary bastion carved out near the core of the Earth, standing as humanity's last stronghold and retreat from simulated digital realities. Assigned to the dedicated, standalone PlayStation 5 Pro gaming environment built purely for high-fidelity interactive entertainment.
