@@ -14,6 +14,8 @@ wireguard_private_key=""
 wireguard_addresses=""
 wireguard_server_countries=""
 cloudflare_api_token=""
+unifi_domain="example.com"
+unifi_os_installer_url="https://fw-download.ubnt.com/data/unifi-os-server/b828-linux-x64-5.1.19-e38d0b0e-b462-403d-9861-f57f25772106.19-x64"
 
 localectl set-keymap uk
 timedatectl set-ntp true
@@ -51,11 +53,6 @@ su "$user" -P -c 'makepkg -si --noconfirm' )
 # Set max journal size for systemd-journald
 echo "SystemMaxUse=50M" >> /etc/systemd/journald.conf
 
-# Subnet isolation configuration
-mkdir -p /etc/docker /etc/containers
-cat ./MutherConfigs/daemon.json > /etc/docker/daemon.json
-cat ./MutherConfigs/containers.conf > /etc/containers/containers.conf
-
 # Appdata, media directories and environment file
 mkdir -p /srv/media/{blackhole,downloads/{incomplete,complete/{tv-sonarr,films-radarr}},films,tv}
 mkdir -p /srv/appdata/{nginx/html/.well-known,transmission,sonarr,radarr,jackett}
@@ -89,6 +86,7 @@ cat ./MutherConfigs/docker-compose.yml > /srv/appdata/docker-compose.yml
 # Nginx config
 cat ./MutherConfigs/nginx.conf > /srv/appdata/nginx/nginx.conf
 sed -i "s|\$domain|$domain|g" /srv/appdata/nginx/nginx.conf
+sed -i "s|\$unifi_domain|$unifi_domain|g" /srv/appdata/nginx/nginx.conf
 
 # Issue TLS Certificate
 cat ./MutherConfigs/cloudflare.ini > /etc/letsencrypt/cloudflare.ini
@@ -146,12 +144,30 @@ chown -R "$user":"$user" /srv/media /srv/appdata
 cat ./MutherConfigs/transmission-cleanup.service > /etc/systemd/system/transmission-cleanup.service
 cat ./MutherConfigs/transmission-cleanup.timer > /etc/systemd/system/transmission-cleanup.timer
 
+# UniFi OS Server (Podman) Deployment
+mkdir -p /srv/appdata/uosserver/containers
+chmod 777 /srv/appdata/uosserver/containers
+ln -s /srv/appdata/uosserver /var/lib/uosserver
+
+mkdir -p /home/uosserver/.local/share
+ln -s /srv/appdata/uosserver/containers /home/uosserver/.local/share/containers
+
+mkdir -p /usr/local/src/unifi-os-server
+cd /usr/local/src/unifi-os-server
+curl -fsSL -o uos-installer.bin "$unifi_os_installer_url"
+chmod +x uos-installer.bin
+
+# Run installer non-interactively
+./uos-installer.bin --non-interactive
+
+# Set proper ownership on the container storage parent
+chown uosserver:uosserver /srv/appdata/uosserver/containers
+
 # Enable services and reboot
 systemctl daemon-reload
 systemctl enable \
   certbot-renew.timer \
   docker \
-  podman.socket \
   fstrim.timer \
   systemd-oomd \
   systemd-timesyncd \
