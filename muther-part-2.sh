@@ -3,7 +3,6 @@ set -euo pipefail
 
 hostname="muther"
 user="user"
-sshuser="sshuser"
 ip_addr="192.168.1.110/24"
 gateway="192.168.1.1"
 dns="192.168.1.1"
@@ -48,8 +47,8 @@ useradd -m -U -G wheel "$user"
 passwd "$user"
 
 # Configure sudoers drop-in
-echo "$sshuser ALL=(ALL) ALL, NOPASSWD: /usr/bin/pacman, /usr/bin/shutdown, /usr/bin/reboot" > /etc/sudoers.d/"$sshuser"
-chmod 0440 /etc/sudoers.d/"$sshuser"
+echo "$user ALL=(ALL) ALL, NOPASSWD: /usr/bin/pacman, /usr/bin/shutdown, /usr/bin/reboot" > /etc/sudoers.d/"$user"
+chmod 0440 /etc/sudoers.d/"$user"
 
 # Limit presets to default and regenerate initramfs
 sed -i "s|^PRESETS=.*|PRESETS=('default')|" /etc/mkinitcpio.d/linux.preset
@@ -77,7 +76,7 @@ sed -i "s/\$rootuuid/$rootuuid/g" /boot/loader/entries/arch.conf
 
 # Configure SSH drop-in
 cat ./Configs/10-custom.conf > /etc/ssh/sshd_config.d/10-custom.conf
-sed -i "s|\$sshuser|$sshuser|g" /etc/ssh/sshd_config.d/10-custom.conf
+sed -i "s|\$user|$user|g" /etc/ssh/sshd_config.d/10-custom.conf
 chmod 0600 /etc/ssh/sshd_config.d/10-custom.conf
 
 # Setup SSH key directory with strict permissions
@@ -85,7 +84,7 @@ mkdir -p /home/"$user"/.ssh
 chmod 0700 /home/"$user"/.ssh
 chown "$user":"$user" /home/"$user"/.ssh
 
-read -n 1 -s -r -p "Switch to another TTY and add the SSH key for $sshuser. Press any key to continue..."
+read -n 1 -s -r -p "Switch to another TTY and add the SSH key for $user. Press any key to continue..."
 echo ""
 
 # Ensure correct ownership and permissions on created authorized_keys

@@ -106,6 +106,7 @@ cat ./MutherConfigs/reload-nginx.sh > /etc/letsencrypt/renewal-hooks/deploy/relo
 chmod +x /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
 
 # Container initialisation and config adjustments
+systemctl start docker
 ( cd /srv/appdata || exit 1
   docker compose up -d
   echo "Waiting 60 seconds for containers to unpack default configs..."
@@ -171,6 +172,6 @@ systemctl enable \
   fstrim.timer \
   systemd-oomd \
   systemd-timesyncd \
-  transmission-cleanup.timer
+  transmission-cleanup.timer --now
 
 reboot

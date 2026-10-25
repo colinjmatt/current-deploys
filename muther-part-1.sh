@@ -26,7 +26,7 @@ mkfs.fat -F 32 /dev/nvme0n1p1
 mkfs.ext4 -F -L arch_root /dev/nvme0n1p2
 mkfs.ext4 -F -L appdata /dev/nvme0n1p3
 # Format sda partition for media storage
-mkfs.ext4 -F -L -m 0 media /dev/sda1
+mkfs.ext4 -F -m 0 -L media /dev/sda1
 
 # Mount target hierarchy
 mount /dev/nvme0n1p2 /mnt
