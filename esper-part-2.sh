@@ -3,7 +3,6 @@ set -euo pipefail
 
 hostname="esper"
 user="user"
-sshuser="sshuser"
 
 # Set region, locale and time synchronisation
 ln -sf /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -40,8 +39,8 @@ useradd -m -U -G wheel,autologin "$user"
 passwd "$user"
 
 # Configure sudoers drop-in
-echo "$sshuser ALL=(ALL) ALL, NOPASSWD: /usr/bin/pacman, /usr/bin/shutdown, /usr/bin/reboot, /usr/bin/virsh" > /etc/sudoers.d/"$sshuser"
-chmod 0440 /etc/sudoers.d/"$sshuser"
+echo "$user ALL=(ALL) ALL, NOPASSWD: /usr/bin/pacman, /usr/bin/shutdown, /usr/bin/reboot, /usr/bin/virsh" > /etc/sudoers.d/"$user"
+chmod 0440 /etc/sudoers.d/"$user"
 
 # Suppress msrs messages
 echo "options kvm report_ignored_msrs=0" > /etc/modprobe.d/kvm.conf
@@ -87,7 +86,7 @@ cat ./EsperConfigs/99-printk.conf > /etc/sysctl.d/99-printk.conf
 
 # Configure SSH drop-in
 cat ./Configs/10-custom.conf > /etc/ssh/sshd_config.d/10-custom.conf
-sed -i "s|\$sshuser|$sshuser|g" /etc/ssh/sshd_config.d/10-custom.conf
+sed -i "s|\$user|$user|g" /etc/ssh/sshd_config.d/10-custom.conf
 chmod 0600 /etc/ssh/sshd_config.d/10-custom.conf
 
 # Setup SSH key directory with strict permissions
@@ -95,7 +94,7 @@ mkdir -p /home/"$user"/.ssh
 chmod 0700 /home/"$user"/.ssh
 chown "$user":"$user" /home/"$user"/.ssh
 
-read -n 1 -s -r -p "Switch to another TTY and add the SSH key for $sshuser. Press any key to continue..."
+read -n 1 -s -r -p "Switch to another TTY and add the SSH key for $user. Press any key to continue..."
 echo ""
 
 # Ensure correct ownership and permissions on created authorized_keys

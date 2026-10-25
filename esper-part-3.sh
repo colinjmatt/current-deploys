@@ -7,7 +7,7 @@ domain="x.local"
 ipaddress="192.168.1.101"
 dns="192.168.1.1"
 gateway="192.168.1.1"
-printerip="192.168.1.150"
+printerip="192.168.1.120"
 
 localectl set-keymap uk
 timedatectl set-ntp true
