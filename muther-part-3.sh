@@ -25,8 +25,7 @@ hostnamectl set-hostname "$hostname"
 echo "keyserver hkps://keys.openpgp.org" >> /etc/pacman.d/gnupg/gpg.conf
 
 # Install required packages
-pacman -Sy
-pacman -S --noconfirm \
+pacman -Syu --noconfirm \
   ccache certbot certbot-dns-cloudflare \
   docker docker-compose \
   pacman-contrib podman \
