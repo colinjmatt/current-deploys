@@ -11,11 +11,9 @@ HOOKPATH="$BASEDIR/qemu.d/$GUEST_NAME/$HOOK_NAME/$STATE_NAME"
 set -e
 
 if [ -f "$HOOKPATH" ] && [ -s "$HOOKPATH" ] && [ -x "$HOOKPATH" ]; then
-    eval \"$HOOKPATH\" "$@"
+    "$HOOKPATH" "$@"
 elif [ -d "$HOOKPATH" ]; then
-    while read file; do
-        if [ ! -z "$file" ]; then
-          eval \"$file\" "$@"
-        fi
-    done <<< "$(find -L "$HOOKPATH" -maxdepth 1 -type f -executable -print;)"
+    while IFS= read -r -d '' file; do
+        "$file" "$@"
+    done < <(find -L "$HOOKPATH" -maxdepth 1 -type f -executable -print0)
 fi
