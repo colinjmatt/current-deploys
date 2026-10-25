@@ -17,9 +17,8 @@ hostnamectl set-hostname "$hostname"
 echo "keyserver hkps://keys.openpgp.org" >> /etc/pacman.d/gnupg/gpg.conf
 
 # All currently required software in official repos
-pacman -Sy
-pacman -S --noconfirm \
-  alsa-plugins alsa-utils \
+pacman -Syu --noconfirm \
+  alsa-plugins alsa-utils avahi \
   bluez bluez-utils \
   ccache code cpupower cups cups-pdf \
   discord djvulibre dmidecode dosfstools \
@@ -29,7 +28,7 @@ pacman -S --noconfirm \
   i2c-tools \
   kdeconnect kdenetwork-filesharing kdegraphics-thumbnailers kde-applications-meta kde-gtk-config \
   libreoffice-fresh libva-utils libva-nvidia-driver libvdpau-va-gl libxcrypt-compat libxnvctrl libvirt \
-  nvidia-open nvidia-settings net-tools network-manager-applet networkmanager networkmanager-openvpn \
+  nvidia-settings net-tools network-manager-applet networkmanager networkmanager-openvpn \
   noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g \
   openrgb \
   p7zip pacman-contrib phonon-qt6-vlc pigz pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-zeroconf \
@@ -213,5 +212,8 @@ systemctl enable \
   systemd-oomd \
   systemd-timesyncd \
   virtlogd.socket 
+
+# Use NetworkManager's generated resolver configuration after reboot
+ln -sf /run/NetworkManager/resolv.conf /etc/resolv.conf
 
 reboot
