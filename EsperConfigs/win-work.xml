@@ -34,7 +34,7 @@ or other application using the libvirt API.
       <feature enabled='yes' name='secure-boot'/>
     </firmware>
     <loader readonly='yes' secure='yes' type='pflash' format='raw'>/usr/share/edk2/x64/OVMF_CODE.secboot.4m.fd</loader>
-    <nvram template='/usr/share/edk2/x64/OVMF_VARS.4m.fd' templateFormat='raw' format='raw'>/mnt/VMs/Windows/win-work_OVMF_VARS.fd</nvram>
+    <nvram template='/usr/share/edk2/x64/OVMF_VARS.4m.fd' templateFormat='raw' format='raw'>/srv/VMs/Windows/win-work_OVMF_VARS.fd</nvram>
     <boot dev='hd'/>
   </os>
   <features>
@@ -72,7 +72,7 @@ or other application using the libvirt API.
     <emulator>/usr/bin/qemu-system-x86_64</emulator>
     <disk type='file' device='disk'>
       <driver name='qemu' type='raw' cache='none' io='io_uring' discard='unmap' detect_zeroes='unmap'/>
-      <source file='/mnt/VMs/Windows/win-work.img'/>
+      <source file='/srv/VMs/Windows/win-work.img'/>
       <target dev='sdb' bus='scsi'/>
       <address type='drive' controller='0' bus='0' target='0' unit='1'/>
     </disk>

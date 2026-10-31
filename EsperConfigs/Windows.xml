@@ -14,6 +14,6 @@ or other application using the libvirt API.
   <source>
   </source>
   <target>
-    <path>/mnt/VMs/Windows</path>
+    <path>/srv/VMs/Windows</path>
   </target>
 </pool>
