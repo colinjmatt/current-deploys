@@ -169,6 +169,7 @@ systemctl enable \
   certbot-renew.timer \
   docker \
   fstrim.timer \
+  reflector \
   systemd-oomd \
   systemd-timesyncd \
   transmission-cleanup.timer --now
