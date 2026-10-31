@@ -16,8 +16,8 @@ parted -s /dev/nvme0n1 mkpart primary ext4 129GiB 100%
 
 parted -s /dev/nvme0n1 set 1 boot on
 mkfs.vfat -F32 /dev/nvme0n1p1
-mkfs.ext4 /dev/nvme0n1p2
-mkfs.ext4 /dev/nvme0n1p3
+mkfs.ext4 -F -L Root /dev/nvme0n1p2
+mkfs.ext4 -F -L VMs /dev/nvme0n1p3
 
 mount /dev/nvme0n1p2 /mnt
 mkdir -p /mnt/boot
@@ -25,7 +25,7 @@ mount /dev/nvme0n1p1 /mnt/boot
 
 mkdir -p /mnt/srv/{Games,VMs}
 mount /dev/nvme1n1p1 /mnt/srv/Games
-mount /dev/nvme0n1p4 /mnt/srv/VMs
+mount /dev/nvme0n1p3 /mnt/srv/VMs
 
 # Install base system
 pacstrap -K /mnt base base-devel amd-ucode linux linux-firmware linux-headers e2fsprogs zram-generator nvidia-open systemd-resolvconf openssh wget nano git
