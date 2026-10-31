@@ -60,12 +60,10 @@ cd /tmp/paru || exit 1
 su "$user" -P -c 'makepkg -si --noconfirm; \
   paru -S --noconfirm \
   brother-dcp-9020cdw brscan4 \
-  dwproton-bin \
-  github-desktop gnome-icon-theme gnome-icon-theme-extras gnome-icon-theme-symbolic \
+  github-desktop-bin gnome-icon-theme gnome-icon-theme-extras gnome-icon-theme-symbolic \
   headsetcontrol headsetkontrol heroic-games-launcher-bin \
   numix-circle-icon-theme-git numix-icon-theme-git \
-  protontricks proton-ge-custom-bin protonup-qt-bin \
-  steamtinkerlaunch sunshine \
+  sunshine \
   ttf-ms-fonts \
   uxplay \
   virtio-win' )
@@ -76,6 +74,9 @@ pacman -S --noconfirm \
 mkdir -p /home/"$user"/.local/share/Steam/
 echo "unShaderBackgroundProcessingThreads $(nproc)" > /home/"$user"/.local/share/Steam/steam_dev.cfg
 chown -R "$user":"$user" /home/"$user"/.local
+su "$user" -P -c 'paru -S --noconfirm \
+  protontricks proton-ge-custom-bin protonup-qt-bin \
+  steamtinkerlaunch'
 su "$user" -P -c 'steamtinkerlaunch compat add'
 
 # Blacklist nouveau
@@ -138,25 +139,30 @@ chown root:kvm ./*
 chmod 0440 ./* )
 
 # Configure NetworkManager
-uuid="$(cat /proc/sys/kernel/random/uuid)"
-install -d -m 700 /etc/NetworkManager/system-connections
-install -m 600 ./EsperConfigs/host-bridge.nmconnection /etc/NetworkManager/system-connections/host-bridge.nmconnection
+hostuuid="$(cat /proc/sys/kernel/random/uuid)"
+slaveuuid="$(cat /proc/sys/kernel/random/uuid)"
+interface="$(ip -o link | grep "state UP" | awk -F': ' '{print $2}')"
+cat ./EsperConfigs/host-bridge.nmconnection > /etc/NetworkManager/system-connections/host-bridge.nmconnection
+cat ./EsperConfigs/bridge-slave.nmconnection > /etc/NetworkManager/system-connections/bridge-slave.nmconnection
 
 sed -i \
-  -e "s|\$uuid|$uuid|g" \
+  -e "s|\$uuid|$hostuuid|g" \
   -e "s|\$ipaddress|$ipaddress|g" \
   -e "s|\$gateway|$gateway|g" \
   -e "s|\$dns|$dns|g" \
   -e "s|\$domain|$domain|g" \
   /etc/NetworkManager/system-connections/host-bridge.nmconnection
 
+sed -i \
+  -e "s|\$uuid|$slaveuuid|g" \
+  -e "s|\$interface|$interface|g" \
+  /etc/NetworkManager/system-connections/bridge-slave.nmconnection
+
 # Make autostart directory if it doesn't exist
 mkdir -p /home/"$user"/.config/autostart
 
 # Disable audio power saving
-tee /etc/modprobe.d/audio_powersave.conf << 'EOF'
-options snd_hda_intel power_save=0 power_save_controller=N
-EOF
+cat ./EsperConfigs/audio_powersave.conf > /etc/modprobe.d/audio_powersave.conf
 
 # Headset Control
 cat ./EsperConfigs/Arctis7PlusChatMix.py > /usr/local/bin/Arctis7PlusChatMix.py
@@ -165,10 +171,9 @@ sed -i -e "s/\$user/""$user""/g" /etc/udev/rules.d/99-arctis7plus.rules
 cat ./EsperConfigs/Arctis7PlusChatMix.desktop > /home/"$user"/.config/autostart/Arctis7PlusChatMix.desktop
 
 # OpenRGB
-cat ./EsperConfigs/60-openrgb.rules > /etc/udev/rules.d/60-openrgb.rules
 cat ./EsperConfigs/OpenRGB.desktop > /home/"$user"/.config/autostart/OpenRGB.desktop
 mkdir -p /home/"$user"/.config/OpenRGB
-cat ./EsperConfigs/openrgb-Default.orp > /home/"$user"/.config/OpenRGB/openrgb-Default.orp
+cat ./EsperConfigs/Default.json > /home/"$user"/.config/OpenRGB/profiles/Default.json
 
 # Steam friends list positioning
 cat ./EsperConfigs/SteamFriendsListPosition.desktop > /home/"$user"/.config/autostart/SteamFriendsListPosition.desktop
@@ -187,7 +192,7 @@ cat ./EsperConfigs/Yakuake.desktop > /home/"$user"/.config/autostart/Yakuake.des
 ln -sf /usr/share/applications/discord.desktop /home/"$user"/.config/autostart/discord.desktop
 
 # Set permissions
-chmod +x -R /usr/local/bin/*
+chmod +x -R /usr/local/bin/
 chown -R "$user":"$user" /home/"$user"/.config /home/"$user"/.local
 
 # Set max journal size for systemd-journald
@@ -208,6 +213,7 @@ systemctl enable \
   libvirtd \
   NetworkManager \
   nvidia-persistenced \
+  reflector \
   sddm \
   systemd-oomd \
   systemd-timesyncd \
