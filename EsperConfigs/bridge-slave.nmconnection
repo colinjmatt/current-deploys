@@ -1,0 +1,11 @@
+[connection]
+id=bridge-slave
+uuid=$uuid
+type=ethernet
+controller=virbr0
+interface-name=$interface
+port-type=bridge
+
+[ethernet]
+
+[bridge-port]
