@@ -58,8 +58,7 @@ mkinitcpio -P
 sed -i \
   -e 's|^#Color|Color|' \
   -e 's|^ParallelDownloads = .*|ParallelDownloads = 10|' \
-  -e 's|^#\[multilib\]$|[multilib]|' \
-  -e 's|^#Include = /etc/pacman.d/mirrorlist$|Include = /etc/pacman.d/mirrorlist|' \
+  -e '/^#\[multilib\]/{N;s/#\[multilib\]\n#Include/[multilib]\nInclude/}' \
   /etc/pacman.conf
 
 mkdir -p /etc/pacman.d/hooks/
