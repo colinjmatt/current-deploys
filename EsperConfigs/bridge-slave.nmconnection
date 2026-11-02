@@ -7,5 +7,6 @@ interface-name=$interface
 port-type=bridge
 
 [ethernet]
+wake-on-lan=64
 
 [bridge-port]
