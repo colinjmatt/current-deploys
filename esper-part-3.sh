@@ -60,7 +60,8 @@ cd /tmp/paru || exit 1
 su "$user" -P -c 'makepkg -si --noconfirm; \
   paru -S --noconfirm \
   brother-dcp-9020cdw brscan4 \
-  github-desktop-bin gnome-icon-theme gnome-icon-theme-extras gnome-icon-theme-symbolic \
+  desktop-plus-bin \
+  gnome-icon-theme gnome-icon-theme-extras gnome-icon-theme-symbolic \
   headsetcontrol headsetkontrol heroic-games-launcher-bin \
   numix-circle-icon-theme-git numix-icon-theme-git \
   sunshine \
