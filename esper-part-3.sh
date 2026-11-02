@@ -97,10 +97,13 @@ sed -i "s/User=.*/User=""$user""/g" /etc/sddm.conf.d/autologin.conf
 
 # Configure QEMU and libvirt
 cat ./EsperConfigs/qemu.conf >> /etc/libvirt/qemu.conf
-sed -i -e "s/\user.*/user\ =\ \"""$user""\"/g" /etc/libvirt/qemu.conf
+sed -i "s|^user[[:space:]]*=.*|user = \"$user\"|" /etc/libvirt/qemu.conf
 usermod -a -G input,kvm,libvirt,render "$user"
 
 mkdir -p /etc/libvirt/{devices,storage/autostart,hooks,qemu/networks/autostart}
+
+# Configure lxc to use virbr0 bridge
+sed -i 's|^lxc\.net\.0\.link[[:space:]]*=.*|lxc.net.0.link = virbr0|' /etc/lxc/default.conf
 
 # CPU set to performance and GPU preparation via hooks
 cat ./EsperConfigs/qemu > /etc/libvirt/hooks/qemu
