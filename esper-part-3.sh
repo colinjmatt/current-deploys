@@ -23,7 +23,7 @@ pacman -Syu --noconfirm \
   ccache code cpupower cups cups-pdf \
   discord djvulibre dmidecode dosfstools \
   edk2-ovmf exfatprogs \
-  fastfetch ffmpegthumbs ffnvcodec-headers firefox fuse2 \
+  fastfetch ffmpegthumbs ffnvcodec-headers firefox fluidsynth fuse2 \
   helvum hidapi htop hunspell-en_gb \
   i2c-tools \
   kdeconnect kdenetwork-filesharing kdegraphics-thumbnailers kde-applications-meta kde-gtk-config \
@@ -36,7 +36,7 @@ pacman -Syu --noconfirm \
   powerdevil power-profiles-daemon print-manager python-hid python-psutil python-pyusb \
   qemu-desktop qt5-svg qt5-wayland \
   reflector rsync \
-  sane sddm-kcm sonnet sshfs swtpm system-config-printer sysstat \
+  sane sddm-kcm sonnet soundfont-fluid sshfs swtpm system-config-printer sysstat \
   tesseract tesseract-data-eng ttf-liberation \
   unrar unzip usbutils \
   virt-manager \
